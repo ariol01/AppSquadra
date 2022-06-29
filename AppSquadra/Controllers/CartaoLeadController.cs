@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AppSquadra.Dominio.Models;
+using AppSquadra.Infra.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,9 +13,10 @@ namespace AppSquadra.Controllers
     {
         // GET: api/<CartaoLeadController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<List<CartaoLeadAccpted>>> Get([FromServices] DataContext context)
         {
-            return new string[] { "value1", "value2" };
+            var dados = await context.CartaoLeads.Where(x=>!x.IsAccepted).ToListAsync();
+            return Ok(dados);
         }
 
         // GET api/<CartaoLeadController>/5
@@ -30,8 +34,24 @@ namespace AppSquadra.Controllers
 
         // PUT api/<CartaoLeadController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromQuery] bool value,[FromServices] DataContext context)
         {
+            var cartao = await context.CartaoLeads.FindAsync(id); 
+
+            if (cartao.Price > 500)
+            {
+                cartao.Price = cartao.Price - (10 / 100 * cartao.Price);
+            }
+
+            //enviar email
+
+            cartao.IsAccepted = value;
+
+            context.Update(cartao);
+
+            await context.SaveChangesAsync();
+
+            return Ok(cartao);
         }
 
         // DELETE api/<CartaoLeadController>/5

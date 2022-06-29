@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppSquadra.Dominio\AppSquadra.Dominio.csproj" />
+  </ItemGroup>
+
 </Project>

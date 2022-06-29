@@ -14,11 +14,11 @@ namespace AppSquadra
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<DataContext>(op =>
-            //{
-            //    op.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            //});
-            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("memo"));
+            services.AddDbContext<DataContext>(op =>
+            {
+                op.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("memo"));
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
