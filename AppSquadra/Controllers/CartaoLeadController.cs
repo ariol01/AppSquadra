@@ -15,7 +15,8 @@ namespace AppSquadra.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CartaoLeadAccpted>>> Get([FromServices] DataContext context)
         {
-            var dados = await context.CartaoLeads.Where(x=>!x.IsAccepted).ToListAsync();
+            
+            var dados = await context.CartaoLeads.Where(x=> x.Status == 0).ToListAsync();
             return Ok(dados);
         }
 
@@ -34,7 +35,7 @@ namespace AppSquadra.Controllers
 
         // PUT api/<CartaoLeadController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromQuery] bool value,[FromServices] DataContext context)
+        public async Task<IActionResult> Put(int id, [FromQuery] int value,[FromServices] DataContext context)
         {
             var cartao = await context.CartaoLeads.FindAsync(id); 
 
@@ -45,7 +46,7 @@ namespace AppSquadra.Controllers
 
             //enviar email
 
-            cartao.IsAccepted = value;
+            cartao.Status = value;
 
             context.Update(cartao);
 

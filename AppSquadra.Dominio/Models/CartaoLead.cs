@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace AppSquadra.Dominio.Models
         public string Suburb { get; set; }
         public string Category { get; set; }
         public decimal Price { get; set; }
-        public int IsAccepted { get; set; }
+        [DefaultValue(0)]
+        public int Status { get; set; }
     }
 }
