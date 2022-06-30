@@ -24,4 +24,8 @@
     <ProjectReference Include="..\AppSquadra.Dominio\AppSquadra.Dominio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\" />
+  </ItemGroup>
+
 </Project>

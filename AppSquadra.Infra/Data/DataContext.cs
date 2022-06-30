@@ -15,6 +15,6 @@ namespace AppSquadra.Infra.Data
 
         }
        public DbSet<CartaoLeadAccpted> CartaoLeads { get; set; }
-
+                
     }
 }

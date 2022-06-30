@@ -14,17 +14,28 @@ namespace AppSquadra.Controllers
         // GET: api/<CartaoLeadController>
         [HttpGet]
         public async Task<ActionResult<List<CartaoLeadAccpted>>> Get([FromServices] DataContext context)
-        {
-            
-            var dados = await context.CartaoLeads.Where(x=> x.Status == 0).ToListAsync();
-            return Ok(dados);
+        {            
+            var dados = await context.CartaoLeads.Where(x=>x.Status == 0).ToListAsync();
+            if (dados.Any())
+            {
+                return Ok(dados);
+
+            }
+            return NotFound();
         }
 
         // GET api/<CartaoLeadController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{status}")]
+        public async Task<ActionResult<List<CartaoLeadAccpted>>> Get([FromServices] DataContext context, int status)
         {
-            return "value";
+            
+            var dados = await context.CartaoLeads.Where(x => x.Status == status).ToListAsync();
+            if (dados.Any())
+            {
+              return Ok(dados);
+
+            }
+            return NotFound();
         }
 
         // POST api/<CartaoLeadController>
@@ -52,7 +63,7 @@ namespace AppSquadra.Controllers
 
             await context.SaveChangesAsync();
 
-            return Ok(cartao);
+            return Ok(context.CartaoLeads.ToList());
         }
 
         // DELETE api/<CartaoLeadController>/5

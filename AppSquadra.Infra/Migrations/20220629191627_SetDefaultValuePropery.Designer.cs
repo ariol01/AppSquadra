@@ -4,6 +4,7 @@ using AppSquadra.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppSquadra.Infra.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220629191627_SetDefaultValuePropery")]
+    partial class SetDefaultValuePropery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +24,7 @@ namespace AppSquadra.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("AppSquadra.Dominio.Models.CartaoLeadAccpted", b =>
+            modelBuilder.Entity("AppSquadra.Dominio.Models.CartaoLead", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,10 +36,6 @@ namespace AppSquadra.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ContactEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -45,7 +43,38 @@ namespace AppSquadra.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("Suburb")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CartaoLead");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("CartaoLead");
+                });
+
+            modelBuilder.Entity("AppSquadra.Dominio.Models.CartaoLeadAccpted", b =>
+                {
+                    b.HasBaseType("AppSquadra.Dominio.Models.CartaoLead");
+
+                    b.Property<string>("ContactEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -57,19 +86,7 @@ namespace AppSquadra.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Suburb")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CartaoLeads");
+                    b.HasDiscriminator().HasValue("CartaoLeadAccpted");
                 });
 #pragma warning restore 612, 618
         }

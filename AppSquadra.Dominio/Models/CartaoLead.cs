@@ -16,7 +16,6 @@ namespace AppSquadra.Dominio.Models
         public string Suburb { get; set; }
         public string Category { get; set; }
         public decimal Price { get; set; }
-        [DefaultValue(0)]
         public int Status { get; set; }
     }
 }
