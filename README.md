@@ -1,4 +1,6 @@
-AppSquadra
+AppSquadra 
+
+Tecnologias usadas: Entity FrameworkCore, LINQ, Migrations, WebApi.
 
 Projeto Backend. Siga os passos seguintes para rodar o backend.
 
