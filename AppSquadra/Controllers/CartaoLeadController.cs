@@ -15,13 +15,13 @@ namespace AppSquadra.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CartaoLeadAccpted>>> Get([FromServices] DataContext context)
         {            
-            var dados = await context.CartaoLeads.Where(x=>x.Status == 0).ToListAsync();
+            var dados = await context.CartaoLeads.Where(x=>x.Status == 0).ToListAsync();            
             if (dados.Any())
             {
                 return Ok(dados);
 
             }
-            return NotFound();
+            return NotFound("Dados com status em aberto não encontrado.");
         }
 
         // GET api/<CartaoLeadController>/5
@@ -52,7 +52,7 @@ namespace AppSquadra.Controllers
 
             if (cartao.Price > 500)
             {
-                cartao.Price = cartao.Price - (10 / 100 * cartao.Price);
+                cartao.Price = cartao.Price - ( 0.1M * cartao.Price);
             }
 
             //enviar email
